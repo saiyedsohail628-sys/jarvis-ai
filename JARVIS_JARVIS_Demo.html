@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>J.A.R.V.I.S</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#0b2b55,#020711 70%);color:#e2f5ff;font-family:system-ui,sans-serif;min-height:100vh}
+header{text-align:center;padding:24px 12px 12px;color:#43d7ff;letter-spacing:5px}header h1{margin:0;font-size:30px;text-shadow:0 0 18px #00bfff}header small{letter-spacing:2px;color:#8dbedb}
+.reactor{height:120px;display:grid;place-items:center}.ring{width:88px;height:88px;border:2px solid #35d5ff;border-radius:50%;display:grid;place-items:center;box-shadow:0 0 24px #008cff,inset 0 0 22px #0077ff;color:#8beaff;font-size:42px;animation:pulse 3s infinite}
+@keyframes pulse{50%{box-shadow:0 0 38px #00d5ff,inset 0 0 30px #0077ff}}
+main{max-width:680px;margin:auto;padding:12px;display:flex;flex-direction:column;min-height:55vh}.msg{border:1px solid #1b709a;background:#07182c;border-radius:14px;padding:12px;margin:6px 0;line-height:1.5}.you{align-self:flex-end;background:#082d45}.tag{color:#43d7ff;font-size:11px;letter-spacing:2px;font-weight:bold}.body{margin-top:5px;white-space:pre-wrap}
+form{max-width:680px;margin:auto;padding:12px;display:flex;gap:8px}input{min-width:0;flex:1;background:#091e37;color:white;border:1px solid #35d5ff;border-radius:13px;padding:14px;font-size:16px}button{background:#35d5ff;color:#00111e;border:0;border-radius:12px;padding:0 14px;font-weight:bold}button.secondary{background:#091e37;color:#35d5ff;border:1px solid #35d5ff}
+.note{text-align:center;color:#7fa5c2;font-size:12px;padding:0 14px 20px}
+</style></head><body><header><h1>J.A.R.V.I.S</h1><small>PERSONAL AI • STARTER MODE</small></header>
+<div class="reactor"><div class="ring">◉</div></div><main id="chat"><div class="msg"><div class="tag">JARVIS</div><div class="body">Namaste! Hindi ya English mein baat karein. Ye free starter demo hai.</div></div></main>
+<form id="form"><input id="q" placeholder="Ask JARVIS / kuch poochho..." autocomplete="off"><button type="button" class="secondary" id="mic">🎙</button><button>Send</button></form><div class="note">Demo replies only • Voice recognition depends on your browser/device.</div>
+<script>
+const chat=document.querySelector('#chat'),q=document.querySelector('#q');
+function add(who,text,you=false){let d=document.createElement('div');d.className='msg'+(you?' you':'');let t=document.createElement('div');t.className='tag';t.textContent=who;let b=document.createElement('div');b.className='body';b.textContent=text;d.append(t,b);chat.append(d);d.scrollIntoView({behavior:'smooth',block:'end'});}
+function reply(s){s=s.toLowerCase();if(/hello|hi|namaste|salam/.test(s))return 'Hello! Main aapka JARVIS assistant hoon. Aap kya karna chahenge?';if(/who are you|kaun ho|jarvis/.test(s))return 'Main JARVIS ka starter prototype hoon. Abhi live AI connected nahi hai.';if(/help|madad/.test(s))return 'Hindi ya English mein message type karein, ya mic dabakar boliye.';return 'Message mil gaya! Ye demo mode hai. Intelligent answers ke liye baad mein AI service connect karni hogi. / I received your message; connect an AI provider for intelligent replies.';}
+document.querySelector('#form').addEventListener('submit',e=>{e.preventDefault();let s=q.value.trim();if(!s)return;q.value='';add('YOU',s,true);add('JARVIS',reply(s));});
+document.querySelector('#mic').onclick=()=>{let SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('Speech recognition is not supported in this browser. Try Chrome.');return;}let r=new SR();r.lang='hi-IN';r.onresult=e=>{q.value=e.results[0][0].transcript;q.focus();};r.start();};
+</script></body></html>
